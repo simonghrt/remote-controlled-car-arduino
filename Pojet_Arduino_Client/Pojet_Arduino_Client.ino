@@ -4,15 +4,17 @@
 #include <Servo.h>
 
 //IPAddress ip_server(172,20,10,12);  //IP Address of Server 
-int calX, calY, valX, valY;
+int calX, calY, valX, valY,val_potar;
 const int VRx = 0; // A0
 const int VRy = 1; // A1
-const int A_pot = 2;// A2
+const int A_potar = 3; //A3
 const int D_servo = 2;
+const int A_RED_LED = 11; //A11
+const int A_YELLOW_LED = 13; //A13
+
 
 Servo myservo; // Servo instance
 
- 
 
 void setup() {
   
@@ -41,6 +43,7 @@ void loop() {
   // Mesure des valeurs en X et Y
   valX = analogRead(VRx)- calX;
   valY = analogRead(VRy)- calY;
+  val_potar = analogRead(A_potar);
 
   // Affichage des valeurs lues
   Serial.print("--- Nouvelles lectures --- ");
@@ -48,10 +51,13 @@ void loop() {
   Serial.println((int)(valX));
   Serial.print("Valeur y : ");
   Serial.println((int)(valY));
-  Serial.print("Valeur ServoMoteur : ");
-  Serial.println((int)(valY));
-
+  Serial.print("Valeur Potar : ");
+  Serial.println((int)(val_potar));
+  
   myservo.writeMicroseconds(10*valX);
+
+  analogWrite(A_RED_LED,val_potar/4);
+  analogWrite(A_YELLOW_LED,val_potar/4);
   
   delay(500);
 }
