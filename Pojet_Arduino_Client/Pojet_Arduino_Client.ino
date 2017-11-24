@@ -1,11 +1,18 @@
 
 /*#include <BridgeClient.h>
 #include <Bridge.h>*/
+#include <Servo.h>
 
 //IPAddress ip_server(172,20,10,12);  //IP Address of Server 
-int calX, calY, rawX, rawY;
+int calX, calY, valX, valY;
 const int VRx = 0; // A0
 const int VRy = 1; // A1
+const int A_pot = 2;// A2
+const int D_servo = 2;
+
+Servo myservo; // Servo instance
+
+ 
 
 void setup() {
   
@@ -17,6 +24,8 @@ void setup() {
 
   calX = analogRead(VRx); 
   calY = analogRead(VRy);
+
+  myservo.attach(D_servo);
   
 }
 
@@ -30,16 +39,19 @@ void loop() {
   client.stop();*/
 
   // Mesure des valeurs en X et Y
-  rawX = analogRead(VRx)- calX;
-  rawY = analogRead(VRy)- calY;
+  valX = analogRead(VRx)- calX;
+  valY = analogRead(VRy)- calY;
 
   // Affichage des valeurs lues
   Serial.print("--- Nouvelles lectures --- ");
   Serial.println("Valeur X : ");
-  Serial.println((int)(rawX));
+  Serial.println((int)(valX));
   Serial.print("Valeur y : ");
-  Serial.println((int)(rawY));
+  Serial.println((int)(valY));
+  Serial.print("Valeur ServoMoteur : ");
+  Serial.println((int)(valY));
 
+  myservo.writeMicroseconds(10*valX);
   
   delay(500);
 }
