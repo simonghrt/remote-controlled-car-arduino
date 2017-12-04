@@ -96,8 +96,12 @@ void loop() {
   
   // myservo.writeMicroseconds(10*valX);
 
-  analogWrite(A_RED_LED,val_potar/4);
-  analogWrite(A_YELLOW_LED,val_potar/4);
+  //analogWrite(A_RED_LED,val_potar/4);
+  //analogWrite(A_YELLOW_LED,val_potar/4);
+
+  analogWrite(A_RED_LED,vitG);
+  analogWrite(A_YELLOW_LED,vitD);
+  
   
   delay(1000);
 }
