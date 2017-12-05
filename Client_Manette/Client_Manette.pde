@@ -17,6 +17,7 @@ void setup() {
   c = new Client(this,"127.0.0.1", 12345);  // IP Address of Server in localhost
   println(c.ip());
   myPort = new Serial(this, Serial.list()[1], 9600);
+  myPort.bufferUntil('\n');
 } 
 
 void draw() { 
