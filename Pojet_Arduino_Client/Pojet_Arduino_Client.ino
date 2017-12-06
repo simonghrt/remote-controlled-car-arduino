@@ -58,7 +58,9 @@ void loop() {
     valX = -valX;  
   }
 
-  if (valX == 0) {
+
+
+  if (valX < 4) {
     vitG = 0;
     vitD = 0;
   } else {
@@ -67,12 +69,29 @@ void loop() {
     
     vitG = vitG + (val_potar/2);
     vitD = vitD + (val_potar/2);
-    
+  
+    // Correction pour être bien 0 et 255
     vitG = vitG / 4;
     vitD = vitD / 4;
+  
+    // Correction supplémentaire car ça allait trop vite
+    vitG = vitG - min(vitG, 30);
+    vitD = vitD - min(vitD, 30);
   }
 
 
+  analogWrite(A_RED_LED,vitG);
+  analogWrite(A_YELLOW_LED,vitD);
+
+  // String str = vitG + ',' + vitD + ',' + dir + "\n";
+
+  String str = String(vitG) + String(",") + String(vitD) + String(",") + String(dir);
+
+  Serial.println(str);
+  
+  delay(100);
+
+  
 //  if (valX == 0) {
 //    vitG = 0;
 //    vitD = 0;
@@ -100,17 +119,17 @@ void loop() {
 //  vitD = vitD / 4;
 
   // Affichage des valeurs lues
-  Serial.print("--- Nouvelles lectures --- ");
-  Serial.println("Valeur X : ");
-  Serial.println((int)(valX));
-  Serial.print("Valeur y : ");
-  Serial.println((int)(valY));
-  Serial.print("Valeur Potar : ");
-  Serial.println((int)(val_potar));
-  Serial.print("Valeur Gauche : ");
-  Serial.println((int)(vitG));
-  Serial.print("Valeur Droite : ");
-  Serial.println((int)(vitD));
+//  Serial.print("--- Nouvelles lectures --- ");
+//  Serial.println("Valeur X : ");
+//  Serial.println((int)(valX));
+//  Serial.print("Valeur y : ");
+//  Serial.println((int)(valY));
+//  Serial.print("Valeur Potar : ");
+//  Serial.println((int)(val_potar));
+//  Serial.print("Valeur Gauche : ");
+//  Serial.println((int)(vitG));
+//  Serial.print("Valeur Droite : ");
+//  Serial.println((int)(vitD));
 
   
   // myservo.writeMicroseconds(10*valX);
@@ -118,11 +137,6 @@ void loop() {
   //analogWrite(A_RED_LED,val_potar/4);
   //analogWrite(A_YELLOW_LED,val_potar/4);
 
-  analogWrite(A_RED_LED,vitG);
-  analogWrite(A_YELLOW_LED,vitD);
-  
-  
-  delay(1000);
 }
 
 
