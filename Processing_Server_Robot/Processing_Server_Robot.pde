@@ -16,19 +16,28 @@ void setup() {
 } 
 
 void draw() { 
-  //c = s.available();//get the next client with a message
-  if (/*c != null &&*/ myPort.available() == 0) {  
-    //input = c.readString();
-    input = "127,0\r\n";
+  c = s.available();//get the next client with a message
+  if (c != null && myPort.available() == 0) {  
+    input = c.readString();
+    input += "\n";
     myPort.clear();
-    delay(500);
     print(input);
-    myPort.write(input);
-    print("send !\n");
-    delay(500);
+    delay(20);
+    /*myPort.write(input);
+    input = "0,255,0\n";
+    myPort.clear();
+    delay(1000);
+    print(input);
+    myPort.write(input);*/
   }
 }
 
 void mousePressed() {
+  input = "0,0,0\n";
+  myPort.clear();
+  delay(1000);
+  print(input);
+  myPort.write(input);
+  myPort.clear();
   exit();
 }

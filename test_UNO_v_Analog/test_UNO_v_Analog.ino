@@ -1,17 +1,14 @@
-//écrire sur ces pins là pour les donner aux moteurs du robot
-/*analogWrite(3, 127);
-analogWrite(5, 0);*/
-
 String inputString = "";         // a String to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
-signed char val_left_wheel,val_right_wheel;
-int ind1,ind2;
+signed char val_left_wheel,val_right_wheel,wheel_direction;
+int ind1,ind2,ind3;
 
 void setup() {
   Serial.begin(9600);
   inputString.reserve(200);
-  pinMode(3, OUTPUT); /*M7 => left wheel*/
-  pinMode(5, OUTPUT); /*/M0 => right wheel*/
+  pinMode(3, OUTPUT); /*D7 => left wheel*/
+  pinMode(5, OUTPUT); /*/M1 => right wheel*/
+  pinMode(7, OUTPUT); /*M0 => wheel direction*/
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW); // LED : "L" à coter de la PIN13
 }
@@ -20,12 +17,9 @@ void loop() {
   //écriture analogique ici
   if (stringComplete) {
     //Analog writing here
-    /*Serial.print(val_left_wheel);
-    Serial.print(",");
-    Serial.print(val_right_wheel);
-    Serial.print("\n");*/
     analogWrite(3, val_left_wheel);
     analogWrite(5, val_right_wheel);
+    digitalWrite(7, wheel_direction);
     // clear the string:
     inputString = "";
     stringComplete = false;
@@ -49,7 +43,11 @@ void serialEvent() {
     if (inChar == '\n') {
       ind1 = inputString.indexOf(',');  //finds location of first ,
       val_left_wheel = inputString.substring(0, ind1).toInt();   //captures first data String
-      val_right_wheel = inputString.substring(ind1+1).toInt();   //captures first data String
+      ind2 = inputString.indexOf(',',ind1+1);  //finds location of second ,
+      val_right_wheel = inputString.substring(ind1+1,ind2).toInt();   //captures second data String
+      ind3 = inputString.indexOf(',',ind2+1);  //finds location of third ,
+      wheel_direction = inputString.substring(ind3+1).toInt(); //captures third data String
+      
       stringComplete = true;
       digitalWrite(LED_BUILTIN, HIGH);      
     }
