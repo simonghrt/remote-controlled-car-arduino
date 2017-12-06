@@ -1,52 +1,38 @@
+#include <ArduinoRobot.h>
+#include <Wire.h>
 
-#include <BridgeServer.h> 
-#include <BridgeClient.h>
-#include <Console.h>
-#include <Bridge.h>
+//Bien passer à écrire Robot.analogRead() et pas analogRead() !!!!!
 
-BridgeServer server;
-const int LED=2;
-int i=0; // variable de boucle
+signed long left_wheel,right_wheel;
+char direction_wheel;
+int ind1,ind2;
+int left_pin=D7,right_pin=M1,wheel_direction=M0;
 
 void setup() {
-  
-  pinMode(13,OUTPUT);
-  pinMode(LED, OUTPUT); //met la broche en sortie
-  
-  digitalWrite(13,LOW);
-  Bridge.begin();
-  digitalWrite(13,HIGH);
-  
-  server.begin();
-  Console.begin();
+  Robot.begin();
+  pinMode(left_pin, INPUT);
+  pinMode(right_pin, INPUT);
+  pinMode(wheel_direction,INPUT);
 }
 
 void loop() {
-  BridgeClient client = server.accept();
-  if(client.connected()){
-    
-    client.println("Connected");
-    Serial.println("Client: " + client);
-    
-    while(client.available()<1);
-    Console.println(client.read()); // this should print out 42
-    client.stop();
+  left_wheel = Robot.analogRead(left_pin);
+  right_wheel = Robot.analogRead(right_pin);
+  direction_wheel = Robot.digitalRead(wheel_direction);
+  Serial.print(Robot.analogRead(left_pin));
+  Serial.print(",");
+  Serial.print(Robot.analogRead(right_pin));
+  Serial.print(",");
+  Serial.print(Robot.digitalRead(wheel_direction));
+  Serial.println("");
+  if(direction_wheel == 0){ // move forward
+    left_wheel = left_wheel;
+    right_wheel = right_wheel;
   }
-
-  for (i=0; i<=255;i++){ // boucle for compte de 0 à 255
-
-  analogWrite(LED,i); // génère une impulsion sur la broche de largeur i = la luminosité augmente
-
-  delay(10); // pause de 10 ms entre chaque "cran"
-
-  } // fin de la boucle for
-
-  for (i=0; i<=255;i++){ // boucle for compte de 0 à 255
-
-  analogWrite(LED,255-i); // génère une impulsion sur la broche de largeur 255-i 
-                        // = la luminosité baisse
-
-  delay(10); // pause de 10 ms entre chaque "cran"
-
+  else{ //move backward
+    left_wheel = -left_wheel;
+    right_wheel = -right_wheel;
   }
+  Robot.motorsWrite(left_wheel,right_wheel);
 }
+
