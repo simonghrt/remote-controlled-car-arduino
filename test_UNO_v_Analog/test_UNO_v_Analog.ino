@@ -20,6 +20,10 @@ void loop() {
   //écriture analogique ici
   if (stringComplete) {
     //Analog writing here
+    /*Serial.print(val_left_wheel);
+    Serial.print(",");
+    Serial.print(val_right_wheel);
+    Serial.print("\n");*/
     analogWrite(3, val_left_wheel);
     analogWrite(5, val_right_wheel);
     // clear the string:
@@ -45,8 +49,7 @@ void serialEvent() {
     if (inChar == '\n') {
       ind1 = inputString.indexOf(',');  //finds location of first ,
       val_left_wheel = inputString.substring(0, ind1).toInt();   //captures first data String
-      ind2 = inputString.indexOf(',',ind1+1);  //finds location of first ,
-      val_right_wheel = inputString.substring(ind1+1, ind2+1).toInt();   //captures first data String
+      val_right_wheel = inputString.substring(ind1+1).toInt();   //captures first data String
       stringComplete = true;
       digitalWrite(LED_BUILTIN, HIGH);      
     }
