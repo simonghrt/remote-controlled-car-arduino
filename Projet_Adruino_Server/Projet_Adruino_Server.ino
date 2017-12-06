@@ -1,24 +1,26 @@
 #include <ArduinoRobot.h>
 #include <Wire.h>
 
-char val;
+//Bien passer à écrire Robot.analogRead() et pas analogRead() !!!!!
+
+long left_wheel,right_wheel;
+int ind1,ind2;
+int left_pin=D7,right_pin=M1;
 
 void setup() {
-  // initialize the robot
   Robot.begin();
-  Serial.begin(9600);
-  // initialize the screen
-  Robot.beginTFT();
+  pinMode(left_pin, INPUT);
+  pinMode(right_pin, INPUT);
 }
+
 void loop() {
-
-  if (Serial.available() > 0) { // If data is available to read,
-    val = Serial.read(); // read it and store it in val
-
-    
-    
-    
-
-        
-  }   
+  left_wheel = Robot.analogRead(left_pin);
+  right_wheel = Robot.analogRead(right_pin);
+  //Serial.print(Robot.analogRead(left_pin));
+  //Serial.print(",");
+  //Serial.print(Robot.analogRead(right_pin));
+  //Serial.println("");
+  
+  Robot.motorsWrite(left_wheel,right_wheel);
 }
+
