@@ -51,7 +51,7 @@ void loop() {
     vitG = 0;
     vitD = 0;
   } else if (valX > 0) {
-    vitG = valX + max(0, valY);
+    vitG = valX + max(0, valY); // Ici faire le principe des 256 - max(0,Y) à la place de max(0,Y) seulement
     vitD = valX + max(0, -valY);
   } else {
     vitG = valX - max(0, valY);
