@@ -47,18 +47,57 @@ void loop() {
 
   // Calculs direction
   int vitG, vitD; // -255 to 255 (à la fin des calculs)
+  int dir; // 0 : avance; 1 : recule
+
+  if (valX == 0) {
+    dir = 0;
+  } else if (valX > 0) {
+    dir = 0;
+  } else {
+    dir = 1;
+    valX = -valX;  
+  }
+
   if (valX == 0) {
     vitG = 0;
     vitD = 0;
-  } else if (valX > 0) {
-    vitG = valX + max(0, valY); // Ici faire le principe des 256 - max(0,Y) à la place de max(0,Y) seulement
-    vitD = valX + max(0, -valY);
   } else {
-    vitG = valX - max(0, valY);
-    vitD = valX - max(0, -valY);  
+    vitG = valX + (255 - max(0, valY));
+    vitD = valX + (255 - max(0, -valY));
+    
+    vitG = vitG + (val_potar/2);
+    vitD = vitD + (val_potar/2);
+    
+    vitG = vitG / 4;
+    vitD = vitD / 4;
   }
 
 
+//  if (valX == 0) {
+//    vitG = 0;
+//    vitD = 0;
+//  } else if (valX > 0) {
+//    vitG = valX + (255 - max(0, valY));
+//    vitD = valX + (255 - max(0, -valY));
+//  } else {
+//    vitG = valX - (255 - max(0, valY));
+//    vitD = valX - (255 - max(0, -valY));  
+//  }
+
+//  if (vitG == 0 && vitD == 0) {
+//    val_potar = 0;
+//  }
+//
+//  if (vitG > 0) {
+//    vitG = vitG + (val_potar/2);
+//    vitD = vitD + (val_potar/2);
+//  } else if (vitG < 0) {
+//    vitG = vitG - (val_potar/2);
+//    vitD = vitD - (val_potar/2);
+//  }
+//
+//  vitG = vitG / 4;
+//  vitD = vitD / 4;
 
   // Affichage des valeurs lues
   Serial.print("--- Nouvelles lectures --- ");
@@ -68,26 +107,6 @@ void loop() {
   Serial.println((int)(valY));
   Serial.print("Valeur Potar : ");
   Serial.println((int)(val_potar));
-  Serial.print("Valeur Gauche : ");
-  Serial.println((int)(vitG));
-  Serial.print("Valeur Droite : ");
-  Serial.println((int)(vitD));
-
-  if (vitG == 0 && vitD == 0) {
-    val_potar = 0;
-  }
-
-  if (vitG > 0) {
-    vitG = vitG + (val_potar/2);
-    vitD = vitD + (val_potar/2);
-  } else if (vitG < 0) {
-    vitG = vitG - (val_potar/2);
-    vitD = vitD - (val_potar/2);
-  }
-
-  vitG = vitG / 4;
-  vitD = vitD / 4;
-  
   Serial.print("Valeur Gauche : ");
   Serial.println((int)(vitG));
   Serial.print("Valeur Droite : ");
