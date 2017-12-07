@@ -1,7 +1,7 @@
 String inputString = "";         // a String to hold incoming data
 boolean stringComplete = false;  // whether the string is complete
 signed char val_left_wheel,val_right_wheel,wheel_direction;
-int ind1,ind2,ind3;
+int ind1,ind2;
 
 void setup() {
   Serial.begin(9600);
@@ -45,8 +45,7 @@ void serialEvent() {
       val_left_wheel = inputString.substring(0, ind1).toInt();   //captures first data String
       ind2 = inputString.indexOf(',',ind1+1);  //finds location of second ,
       val_right_wheel = inputString.substring(ind1+1,ind2).toInt();   //captures second data String
-      ind3 = inputString.indexOf(',',ind2+1);  //finds location of third ,
-      wheel_direction = inputString.substring(ind3+1).toInt(); //captures third data String
+      wheel_direction = inputString.substring(ind2+1).toInt(); //captures third data String
       
       stringComplete = true;
       digitalWrite(LED_BUILTIN, HIGH);      

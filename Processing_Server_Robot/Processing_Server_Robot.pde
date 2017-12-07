@@ -19,16 +19,10 @@ void draw() {
   c = s.available();//get the next client with a message
   if (c != null && myPort.available() == 0) {  
     input = c.readString();
-    input += "\n";
     myPort.clear();
     print(input);
     delay(20);
-    /*myPort.write(input);
-    input = "0,255,0\n";
-    myPort.clear();
-    delay(1000);
-    print(input);
-    myPort.write(input);*/
+    myPort.write(input);
   }
 }
 
