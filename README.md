@@ -2,7 +2,7 @@
 
 La configuration du projet est la suivante : 
 
-![Image of Yaktocat](https://octodex.github.com/images/yaktocat.png)
+![Arduino project](./Synoptique_Projet_Arduino.png)
 
 Une vidéo de démonstration du prototype peut être trouvée à cette adresse : 
 
